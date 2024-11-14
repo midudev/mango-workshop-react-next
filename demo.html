@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    button {
+      background: #09f;
+      color: #fff;
+      border: 0;
+      padding: 4px 8px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    body {
+      background: #222;
+      color: #fff;
+      font-family: system-ui;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+</html>
+
+<script type="module">
+  import { createElement as _jsx, useState } from "https://esm.sh/react";
+  import { createRoot } from "https://esm.sh/react-dom/client";
+
+  const appDomElement = document.getElementById('app');
+  const root = createRoot(appDomElement);
+
+  const LikeButton = () => {
+    const [like, setLike] = useState(false)
+
+    const handleClick = () => {
+      setLike(!like)
+    }
+
+    const text = like ? 'Quitar me gusta' : 'Me gusta'
+
+    return _jsx('button', { onClick: handleClick }, text);
+  }
+
+  root.render([
+    _jsx(LikeButton),
+    _jsx(LikeButton),
+  ]);
+</script>
