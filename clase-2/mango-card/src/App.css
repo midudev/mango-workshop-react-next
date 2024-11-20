@@ -15,3 +15,9 @@
   width: 200px;
   height: auto;
 }
+
+button[disabled] {
+  pointer-events: none;
+  opacity: .5;
+  cursor: not-allowed;
+}
