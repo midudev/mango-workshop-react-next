@@ -7,11 +7,17 @@ import { CATEGORIES } from './consts/categories'
 import { Products } from './components/products'
 import { Filters } from './components/filters'
 import { Cart } from './components/cart'
+import { Pagination } from './components/pagination'
 
 function App() {
   const {
     loading: loadingProducts,
-    products
+    products,
+    page,
+    prevPage,
+    nextPage,
+    limit,
+    total,
   } = useProducts()
 
   const [filterCategory, setFilterCategory] = useState(CATEGORIES[0])
@@ -37,9 +43,25 @@ function App() {
           onChangeCategoryFilter={setFilterCategory} />
       </Header>
 
+      <Pagination
+        page={page}
+        prevPage={prevPage}
+        nextPage={nextPage}
+        limit={limit}
+        total={total}
+      />
+
       <Products
         loadingProducts={loadingProducts}
         products={filteredProducts}
+      />
+
+      <Pagination
+        page={page}
+        prevPage={prevPage}
+        nextPage={nextPage}
+        limit={limit}
+        total={total}
       />
 
       <Cart />
