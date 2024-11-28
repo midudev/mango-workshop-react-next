@@ -14,10 +14,8 @@ function MangoCardComponent({ added, img, id, name, addToCart, removeFromCart })
   }
 
   return (
-    <article className="mango-card" style={{ position: 'relative' }}>
-      
-      <Fav />
-
+    <article className="mango-card">
+      <Fav id={id} />
       <picture>
         <img
           className="mango-card__img"

@@ -14,27 +14,44 @@ function App() {
     products
   } = useProducts()
 
-  const [filterCategory, setFilterCategory] = useState(CATEGORIES[0])
-
-  const [toggle, setToggle] = useState(false)
+  const [filterCategory, setFilterCategory] = useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    return params.get('filterCategory') ?? CATEGORIES[0]
+  })
 
   const filteredProducts = useMemo(() => products.filter(product => {
-    console.log('filter product', product.id)
-
     if (filterCategory === 'all') return true
 
     const { category } = product
     return category === filterCategory
   }), [products, filterCategory])
 
+  const title = loadingProducts
+    ? 'Cargando productos...'
+    : `Mango App - ${filteredProducts.length} productos`
+
+  const handleChangeCategoryFilter = (category) => {
+    setFilterCategory(category)
+
+    const params = new URLSearchParams(window.location.search)
+    params.set('filterCategory', category)
+
+    window.history.pushState(
+      {}, '', `${window.location.pathname}?${params.toString()}`
+    )
+  }
+
   return (
     <>
-      <button onClick={() => setToggle(!toggle)}>Toggle</button>
+      <title>{title}</title>
+      <meta name='description' content={title} />
+      <meta name='og:title' content={title} />
     
       <Header products={filteredProducts}>
         <Filters
+          filterCategory={filterCategory}
           categories={CATEGORIES}
-          onChangeCategoryFilter={setFilterCategory} />
+          onChangeCategoryFilter={handleChangeCategoryFilter} />
       </Header>
 
       <Products

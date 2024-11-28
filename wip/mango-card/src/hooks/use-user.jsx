@@ -1,12 +1,12 @@
-import { use } from 'react'
-import { UserContext } from '../contexts/user'
+import { use } from "react"
+import { UserContext } from "../contexts/user-context"
 
 export const useUser = () => {
-  const context = use(UserContext)
+  const user = use(UserContext)
 
-  if (!context) {
-    throw new Error('useUser must be used within a UserProvider')
+  if (user == null) {
+    throw new Error('useUser must be used within a UserContextProvider')
   }
 
-  return context
+  return user
 }

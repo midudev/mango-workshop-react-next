@@ -1,4 +1,4 @@
-export function Filters({ categories, onChangeCategoryFilter }) {
+export function Filters({ categories, onChangeCategoryFilter, filterCategory }) {
   const handleChangeCategoryFilter = event => {
     const newCategoryFilter = event.target.value
     onChangeCategoryFilter(newCategoryFilter)
@@ -12,7 +12,7 @@ export function Filters({ categories, onChangeCategoryFilter }) {
           <select onChange={handleChangeCategoryFilter}>
             {
               categories.map(category => (
-                <option key={category}>{category}</option>
+                <option key={category} selected={category === filterCategory}>{category}</option>
               ))
             }
           </select>

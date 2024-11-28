@@ -14,6 +14,10 @@
 .mango-card__img {
   width: 200px;
   height: auto;
-  aspect-ratio: 1/1;
-  object-fit: contain;
+}
+
+button[disabled] {
+  pointer-events: none;
+  opacity: .5;
+  cursor: not-allowed;
 }

@@ -5,7 +5,7 @@ export const ACTIONS = {
 }
 
 export const cartReducer = (state, action) => {
-  const { type, payload = {} } = action
+  const { type, payload } = action
   const { product, quantity } = payload
 
   if (type === ACTIONS.ADD_TO_CART) {

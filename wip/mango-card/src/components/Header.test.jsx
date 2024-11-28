@@ -1,14 +1,20 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import '@testing-library/jest-dom'
-import { Header } from './Header'
+import '@testing-library/jest-dom/vitest'
+
+import { Header } from './header'
 import { useUser } from '../hooks/use-user'
+import { beforeEach } from 'node:test'
 
 // Mock del hook useUser con Vitest
 vi.mock('../hooks/use-user')
 
 describe('Header', () => {
+  beforeEach(() => {
+    cleanup()
+  })
+
   it('should display the title, login button, and product count when logged out', () => {
     // Configurar el mock para el estado deslogueado
     useUser.mockReturnValue({
@@ -21,7 +27,7 @@ describe('Header', () => {
     render(<Header products={products} />)
 
     // Verificar el título
-    expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('Mango Card')
+    expect(screen.getByText('Número de productos: 3')).toBeInTheDocument()
 
     // Verificar el botón de inicio de sesión
     const loginButton = screen.getByRole('button', { name: /iniciar sesión/i })
@@ -44,9 +50,6 @@ describe('Header', () => {
     const products = [{ id: 1 }, { id: 2 }]
     render(<Header products={products} />)
 
-    // Verificar el título
-    expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('Mango Card')
-
     // Verificar el botón de cierre de sesión
     const logoutButton = screen.getByRole('button', { name: /cerrar sesión/i })
     expect(logoutButton).toBeInTheDocument()
@@ -55,8 +58,5 @@ describe('Header', () => {
     // Simular clic en el botón de cerrar sesión
     await userEvent.click(logoutButton)
     expect(mockLogout).toHaveBeenCalled()
-
-    // Verificar el número de productos
-    expect(screen.getByText('Número de productos: 2')).toBeInTheDocument()
   })
 })

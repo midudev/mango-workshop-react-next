@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 
-import { Title } from './Title'
+import { Title } from './title'
 
 describe('Title', () => {
   it('should render a default heading h3', async () => {

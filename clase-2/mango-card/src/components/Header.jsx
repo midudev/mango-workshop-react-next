@@ -5,7 +5,7 @@ export function Header({ products, children }) {
   const { isLogged, login, logout } = useUser()
 
   return (
-    <header>
+    <header data-testid="header">
       <Title as='h4' text='Mango Card' />
   
       <small>Número de productos: {products.length}</small>
@@ -13,11 +13,11 @@ export function Header({ products, children }) {
       <div>
         {
           isLogged ? (
-            <button onClick={logout} style={{ background: 'black' }}> 
+            <button data-test-id="logout" onClick={logout} style={{ background: 'black' }}> 
               Cerrar sesión
             </button>
           ) : (
-            <button onClick={login} style={{ background: '#09f' }}>
+            <button data-test-id="login" onClick={login} style={{ background: '#09f' }}>
               Iniciar sesión
             </button>
           )

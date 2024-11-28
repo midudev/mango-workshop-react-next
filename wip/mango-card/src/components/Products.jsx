@@ -1,8 +1,12 @@
 import { useCart } from "../hooks/use-cart";
-import { MangoCard } from "./MangoCard";
+import { MangoCard } from "./mango-card";
 
 export function Products({ loadingProducts, products }) {
-  const {handleAddToCart, handleRemoveFromCart, cart} = useCart()
+  const {
+    cart,
+    addToCart,
+    removeFromCart,
+  } = useCart()
 
   return (
     <>
@@ -14,13 +18,13 @@ export function Products({ loadingProducts, products }) {
       {
         products.map(({ id, title, images }) => (
           <MangoCard
+            added={cart.some(({ id: cartId }) => cartId === id)}
+            addToCart={addToCart}
+            removeFromCart={removeFromCart}
             key={id}
             id={id}
             name={title}
             img={images[0]}
-            handleAddToCart={handleAddToCart}
-            handleRemoveFromCart={handleRemoveFromCart}
-            added={cart.some(product => product.id === id)}
           />
           )
         )

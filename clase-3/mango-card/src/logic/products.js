@@ -9,3 +9,24 @@ export const getProducts = () => {
       })
     })
 }
+
+const favs = new Set()
+
+let execution = 0
+
+export const toggleFav = async ({ id }) => {
+  const time = execution === 0 ? 2000 : 200
+  execution++
+
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
+  await delay(time) // esperar el tiempo
+
+  if (favs.has(id)) {
+    favs.delete(id)
+    return false
+  }
+
+  favs.add(id)
+  return true
+}
