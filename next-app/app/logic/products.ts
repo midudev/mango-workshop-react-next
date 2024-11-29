@@ -72,15 +72,12 @@ export const getProduct = (id: number) => {
 
 const favs = new Set()
 
-let execution = 0
-
 export const toggleFav = async ({ id }: { id: number }) => {
-  const time = execution === 0 ? 2000 : 200
-  execution++
-
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-  await delay(time) // esperar el tiempo
+  await delay(1000) // esperar el tiempo
+
+  throw new Error('Error')
 
   if (favs.has(id)) {
     favs.delete(id)
