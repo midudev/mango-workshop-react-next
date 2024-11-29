@@ -14,8 +14,41 @@ type ApiResponseGetAll = {
   products: Product[]
 }
 
-export const getProducts = () => {
-  return fetch('https://dummyjson.com/products')
+type ApiResponseCategories = Array<{ slug: string, name: string }>
+
+export const getCategories = () => {
+  return fetch('https://dummyjson.com/products/categories')
+    .then(res => res.json())
+    .then(response => {
+      return response as ApiResponseCategories
+    })
+}
+
+export const getProductsByCategory = async (category: string) => {
+  // delay 1s
+  await new Promise(resolve => setTimeout(resolve, 1000))
+
+  return fetch(`https://dummyjson.com/products/category/${category}`)
+    .then(res => res.json())
+    .then(response => {
+      const { products } = response as ApiResponseGetAll
+      // get random two elements from array
+      products.sort(() => Math.random() - 0.5)
+      products.splice(2)
+      
+      return products.map(product => {
+        const { id, title, images, category, price } = product
+        return { id, title, images, category, price }
+      })
+    })
+}
+
+export const getProducts = ({ query }: { query?: string } = {}) => {
+  const url = query
+    ? `https://dummyjson.com/products/search?q=${query}`
+    : 'https://dummyjson.com/products'
+
+  return fetch(url)
     .then(res => res.json())
     .then(response => {
       const { products } = response as ApiResponseGetAll

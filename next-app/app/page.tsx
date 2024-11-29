@@ -1,8 +1,12 @@
 import { getProducts } from "@/app/logic/products";
 import ProductCard from "@/app/components/ProductCard";
 
-export default async function Home() {
-  const products = await getProducts()
+export default async function Home(
+  { searchParams }:
+  { searchParams: Promise<{ [key: string]: string | undefined }>
+}) {
+  const { query } = await searchParams
+  const products = await getProducts({ query })
 
   return (
     <div>

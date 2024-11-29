@@ -1,13 +1,16 @@
-import { getProduct } from "@/app/logic/products";
+import { getProduct, getProductsByCategory } from "@/app/logic/products";
 import { Metadata, ResolvingMetadata } from "next";
-import { Params } from "next/dist/server/request/params";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton"
 
 type Props = {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
+
+export const prerender = true
  
 export async function generateMetadata(
   { params }: Props,
@@ -33,7 +36,57 @@ export async function generateMetadata(
   }
 }
 
-export default async function ProductDetail({ params }: { params: Params}) {
+const RelatedProducts = async ({ category }: { category: string }) => {
+  const related = await getProductsByCategory(category)
+
+  return (
+    <div className="pt-10" style={{ paddingTop: '32px' }}>
+      <h2 className="text-xl font-bold my-10 block">Related</h2>
+      <ul className="grid grid-cols-2 gap-4">
+        {
+          related.map(product => (
+            <li key={product.id}>
+              <Link href={`/products/${product.id}`}>
+                <Image
+                  className="w-1/2 rounded-lg aspect-square object-contain"
+                  src={product.images[0]}
+                  width={300}
+                  height={500}
+                  alt={product.title}
+                />
+                <h3 className="text-lg font-semibold">{product.title}</h3>
+                <p className="text-sm opacity-50 mb-4">{product.category}</p>
+                <p className="text-lg font-semibold">{product.price}$</p>
+              </Link>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  )
+}
+
+const SkeletonRelatedProducts = () => {
+  return (
+    <div className="pt-10" style={{ paddingTop: '32px' }}>
+    <h2 className="text-xl font-bold my-10 block">Related</h2>
+    <ul className="grid grid-cols-2 gap-4">
+      {
+        Array.from({ length: 2 }).map((_, index) => (
+          <li key={index} className="flex flex-col gap-4">
+            <Skeleton className="aspect-square w-1/2 rounded-lg" />
+            <Skeleton className="h-3 w-36" />
+            <Skeleton className="h-2 w-6 opacity-50 mb-4" />
+            <Skeleton className="h-3 w-6" />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  )
+}
+
+export default async function ProductDetail({ params }: { params: Promise<{ id: string }>}) {
   const { id } = await params
 
   if (id === undefined) return notFound()
@@ -43,7 +96,7 @@ export default async function ProductDetail({ params }: { params: Params}) {
   if (product === undefined) return notFound()
 
   return (
-    <article className="container mx-auto px-4 py-16 max-w-3xl">
+    <article className="">
       <Image
         className="w-1/2 rounded-lg aspect-square object-contain"
         src={product.images[0]}
@@ -56,6 +109,9 @@ export default async function ProductDetail({ params }: { params: Params}) {
       <p className="text-2xl font-semibold">{product.price}$</p>
       <p className="text-lg opacity-80">{product.description}</p>
       
+      <Suspense fallback={<SkeletonRelatedProducts />}>
+        <RelatedProducts category={product.category} />
+      </Suspense>
     </article>
   );
 }

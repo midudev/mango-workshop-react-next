@@ -4,6 +4,8 @@ import "./globals.css";
 import { ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Form from 'next/form'
+import { Input } from "@/components/ui/input";
 
 const InterFont = Inter_Tight({
   subsets: ["latin"],
@@ -31,6 +33,12 @@ export default function RootLayout({
               <ShoppingBagIcon />
             </Link>
           </Button>
+
+          <Form action="/" className="flex flex-row gap-2 justify-center items-center">
+            <Input name="query" placeholder="Busca aquí..." />
+            <Button>Buscar</Button>
+          </Form>
+
         </header>
 
         {children}
