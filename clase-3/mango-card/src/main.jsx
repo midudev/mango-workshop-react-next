@@ -6,7 +6,6 @@ import { Toaster } from 'sonner'
 
 import { UserContextProvider } from './contexts/user-context.jsx'
 import { CartContextProvider } from './contexts/cart-context.jsx'
-// import { UserContextProvider } from './contexts/user-context'
 
 createRoot(
   document.getElementById('root')
@@ -14,7 +13,10 @@ createRoot(
   <CartContextProvider>
     <UserContextProvider>
       <Toaster />
-      <App />
+      <App
+        products={JSON.parse(document.getElementById('__MIDU_DATA__').textContent)}
+        urlSearch={window.location.search}
+      />
     </UserContextProvider>
   </CartContextProvider>
 )

@@ -1,8 +1,0 @@
-main {
-  display: flex;
-  flex-direction: column;
-  place-items: center;
-  max-width: 800px;
-  margin: 0 auto;
-  font-family: system-ui;
-}

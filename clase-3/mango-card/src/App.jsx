@@ -8,14 +8,9 @@ import { Products } from './components/products'
 import { Filters } from './components/filters'
 import { Cart } from './components/cart'
 
-function App() {
-  const {
-    loading: loadingProducts,
-    products
-  } = useProducts()
-
+function App({ products, urlSearch }) {
   const [filterCategory, setFilterCategory] = useState(() => {
-    const params = new URLSearchParams(window.location.search)
+    const params = new URLSearchParams(urlSearch)
     return params.get('filterCategory') ?? CATEGORIES[0]
   })
 
@@ -26,9 +21,7 @@ function App() {
     return category === filterCategory
   }), [products, filterCategory])
 
-  const title = loadingProducts
-    ? 'Cargando productos...'
-    : `Mango App - ${filteredProducts.length} productos`
+  const title = `Mango App - ${filteredProducts.length} productos`
 
   const handleChangeCategoryFilter = (category) => {
     setFilterCategory(category)
@@ -54,10 +47,7 @@ function App() {
           onChangeCategoryFilter={handleChangeCategoryFilter} />
       </Header>
 
-      <Products
-        loadingProducts={loadingProducts}
-        products={filteredProducts}
-      />
+      <Products products={filteredProducts} />
 
       <Cart />
     </>
