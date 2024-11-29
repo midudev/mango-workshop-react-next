@@ -77,8 +77,6 @@ export const toggleFav = async ({ id }: { id: number }) => {
 
   await delay(1000) // esperar el tiempo
 
-  throw new Error('Error')
-
   if (favs.has(id)) {
     favs.delete(id)
     return false
