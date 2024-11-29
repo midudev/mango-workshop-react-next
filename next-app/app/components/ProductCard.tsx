@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { HeartIcon, PlusIcon } from "lucide-react";
+import { LikeProduct } from "./LikeProduct";
 
 export default function ProductCard(
   { id, title, image, price, category, fetchWithPriority, priority }:
@@ -32,10 +33,9 @@ export default function ProductCard(
         </div>
         <p className="text-lg font-semibold">{price}</p>
       </div>
+
       <div className="flex gap-4">
-        <Button variant="outline" size="icon" className="flex-shrink-0">
-          <HeartIcon className="size-4" />
-        </Button>
+        <LikeProduct id={id} />
         <Button variant="outline" className="w-full"> 
           <PlusIcon className="size-4 me-1" /> Add to Card
         </Button>
