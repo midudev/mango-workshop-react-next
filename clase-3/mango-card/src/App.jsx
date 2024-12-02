@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react'
 import './App.css'
 
-import { useProducts } from './hooks/use-products'
 import { Header } from './components/header'
 import { CATEGORIES } from './consts/categories'
 import { Products } from './components/products'
 import { Filters } from './components/filters'
 import { Cart } from './components/cart'
+import { getProducts } from './logic/products'
 
-function App({ products, urlSearch }) {
+function App({ products, search }) {
   const [filterCategory, setFilterCategory] = useState(() => {
-    const params = new URLSearchParams(urlSearch)
+    const params = new URLSearchParams(search)
     return params.get('filterCategory') ?? CATEGORIES[0]
   })
 
@@ -52,6 +52,11 @@ function App({ products, urlSearch }) {
       <Cart />
     </>
   )
+}
+
+export const getServerSideProps = async () => {
+  const products = await getProducts()
+  return { props: { products } }
 }
 
 export default App

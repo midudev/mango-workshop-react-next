@@ -1,6 +1,7 @@
 {
   "name": "mango-card",
   "private": true,
+  "type": "module",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -10,6 +11,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "express": "^4.21.1",
     "react": "rc",
     "react-dom": "rc",
     "sonner": "^1.7.0"

@@ -6,6 +6,10 @@ import { Toaster } from 'sonner'
 
 import { UserContextProvider } from './contexts/user-context.jsx'
 import { CartContextProvider } from './contexts/cart-context.jsx'
+import { getProducts } from './logic/products.js'
+
+const propsElement = document.getElementById('__MIDU__')
+const initialProps = propsElement ? JSON.parse(propsElement.textContent) : {}
 
 createRoot(
   document.getElementById('root')
@@ -13,10 +17,7 @@ createRoot(
   <CartContextProvider>
     <UserContextProvider>
       <Toaster />
-      <App
-        products={JSON.parse(document.getElementById('__MIDU_DATA__').textContent)}
-        urlSearch={window.location.search}
-      />
+      <App products={initialProps.products} />
     </UserContextProvider>
   </CartContextProvider>
 )
